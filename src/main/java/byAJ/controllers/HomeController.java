@@ -163,10 +163,14 @@ public class HomeController {
             }
            // System.out.printf("%s\n", p.getType());
         }
+        Set<Photo> myList = new HashSet<Photo>();
         for(Photo p2 : list2){
             System.out.printf("%s\n", p2.getType());
+            myList.add(p2);
         }
-        model.addAttribute("photoList", list2);
+
+
+        model.addAttribute("photoList", myList);
         return "makememe";
     }
 

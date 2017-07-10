@@ -8,27 +8,7 @@
     <title>Gallery</title>
 
     <th:block th:replace="base :: head"></th:block>
-    <style>
-    .image{
-        position:relative;
-        width:100%
-    }
-        .top {
-            position: absolute;
-            top: 50px;
-            left: 200px;
-            width: 100px;
-            color: black;
-        }
 
-    .bottom {
-        position: absolute;
-        top: 350px;
-        left: 200px;
-        width: 100px;
-        color: black;
-    }
-    </style>
 
 
 </head>
@@ -45,14 +25,12 @@
     </div>
     <div class="row">
     <div class="col-md-3" th:each="photo : ${images}">
-        <div >
-            <img th:utext="${photo.image}" />
+            <img th:utext="${photo.image}" style="width:200px;" />
             <h2 class="top" th:text="${photo.topmessage}"/>
             <h2 class="bottom" th:text="${photo.botmessage}"/>
 
         </div>
-        </div>
-    </div></div>
+    </div>
 </div><!-- /.container -->
 
 <th:block th:replace="base :: footlinks"></th:block>
