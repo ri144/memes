@@ -101,8 +101,8 @@ public class HomeController {
             model.addAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
-            p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/" + filename + "'/>");
-            System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
+            p.setImage(cloudc.createUrl(filename,200,200, "fit"));
+            //System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
             p.setCreatedAt(new Date());
             photoRepo.save(p);
             setupGallery(model);
@@ -133,8 +133,45 @@ public class HomeController {
         return "gallery";
     }
 
+    @RequestMapping("/select/{id}")
+    public String selectSomthign(@PathVariable("id") String type, Model model){
+                List<Photo> list = photoRepo.findAllByType(type);
+                model.addAttribute("images", list);
+                return "makememe";
+    }
+
+    @GetMapping("/makememe")
+    public String getMeme(Model model){
+        Iterable<Photo> list = photoRepo.findAll();
+        List<Photo> list2 = new ArrayList<Photo>();
+        for(Photo p : list){
+            boolean check = true;
+            for(Photo p2 : list2){
+                if(p2.getType().equals(p.getType())){
+                    //System.out.printf("%s %s\n", p2.getType(), p.getType());
+                    check = false;
+                    break;
+                }
+                else{
+                    //System.out.printf("%s %s\n", p2.getType(), p.getType());
+                    check = true;
+                }
+            }
+            if(check){
+                list2.add(p);
+
+            }
+           // System.out.printf("%s\n", p.getType());
+        }
+        for(Photo p2 : list2){
+            System.out.printf("%s\n", p2.getType());
+        }
+        model.addAttribute("photoList", list2);
+        return "makememe";
+    }
+
     private void setupGallery(Model model){
-        Iterable<Photo> photoList = photoRepo.findAll();//ByBotmessageIsNotAndTopmessageIsNot("","");
+        Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
 
         model.addAttribute("images", photoList);
     }
