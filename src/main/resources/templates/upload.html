@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="www.thymeleaf.org " xmlns:sec="www.thymeleaf.org/extras/spring-security">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title>Bootstrap 101 Template</title>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
 
-        <th:block th:replace="base :: head"></th:block>
-    </head>
-    <body>
-        <th:block th:replace="base :: nav"></th:block>
+    <th:block th:replace="base :: head"></th:block>
+</head>
+<body>
+    <th:block th:replace="base :: nav"></th:block>
 
-        <div class="container">
-            <br /><br />
-            <h1>Spring Boot file upload example</h1>
+    <div class="container">
+        <br /><br />
+        <h1>Spring Boot file upload example</h1>
 
-            <form method="POST" action="/upload" enctype="multipart/form-data">
-                <input type="file" name="file" /><br/><br/>
-                <input type="submit" value="Submit" />
-            </form>
+        <form method="POST" action="/upload" enctype="multipart/form-data" th:object="${p}">
+                    <input type="file" name="file" /><br/><br/>
+                    <input type="text" th:field="*{type}"/>
+                    <input type="submit" value="Submit" />
+                </form>
             <div th:if="${message}">
                 <h2 th:text="${message}"/><br/><br/>
             </div>
@@ -28,10 +29,10 @@
                 <hr />
                 <div th:utext="${sizedimageurl}">
 
-                </div>
             </div>
-        </div><!-- /.container -->
+        </div>
+    </div><!-- /.container -->
 
-        <th:block th:replace="base :: footlinks"></th:block>
-    </body>
+    <th:block th:replace="base :: footlinks"></th:block>
+</body>
 </html>

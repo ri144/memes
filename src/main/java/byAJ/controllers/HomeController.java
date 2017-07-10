@@ -82,12 +82,13 @@ public class HomeController {
     }
 
     @GetMapping("/upload")
-    public String uploadForm(){
+    public String uploadForm(Model model) {
+        model.addAttribute("p", new Photo());
         return "upload";
     }
 
     @PostMapping("/upload")
-    public String singleImageUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model){
+    public String singleImageUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model, @ModelAttribute Photo p){
 
         if (file.isEmpty()){
             redirectAttributes.addFlashAttribute("message","Please select a file to upload");
@@ -100,7 +101,6 @@ public class HomeController {
             model.addAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
-            Photo p = new Photo();
             p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/" + filename + "'/>");
             System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
             p.setCreatedAt(new Date());
