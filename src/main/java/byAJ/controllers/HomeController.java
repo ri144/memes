@@ -82,12 +82,13 @@ public class HomeController {
     }
 
     @GetMapping("/upload")
-    public String uploadForm(){
+    public String uploadForm(Model model){
+        model.addAttribute("p", new Photo());
         return "upload";
     }
 
     @PostMapping("/upload")
-    public String singleImageUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model){
+    public String singleImageUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model, @ModelAttribute Photo p){
 
         if (file.isEmpty()){
             redirectAttributes.addFlashAttribute("message","Please select a file to upload");
@@ -100,10 +101,10 @@ public class HomeController {
             model.addAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
-            Photo p = new Photo();
             p.setImage(filename);
             p.setCreatedAt(new Date());
-            photoRepo.save(p);
+            System.out.println(p.getType());
+           photoRepo.save(p);
             Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
             List<String> list = new ArrayList<String>();
             for(Photo ph : photoList){
@@ -135,5 +136,4 @@ public class HomeController {
 
         return "gallery";
     }
-
-}
+ }
