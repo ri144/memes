@@ -14,11 +14,11 @@
 
 <div class="container">
     <br /><br />
-    <h1>Spring Boot file upload example</h1>
+    <h1>Spring Boot make meme</h1>
 
     <div >
-        <tr th:each="mylink : ${type}">
-            <td><a th:text = "${mylink.type}" th:href="@{${mylink.link}}"></a></td>
+        <tr th:each="photo : ${photoList}">
+            <td><a th:text = "${photo.type}" th:href="@{'/' + select + '/' + ${photo.type}}"></a></td>
         </tr>
     </div>
 </div><!-- /.container -->

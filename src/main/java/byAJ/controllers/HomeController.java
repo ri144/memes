@@ -123,8 +123,8 @@ public class HomeController {
         Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
         List<String> list = new ArrayList<String>();
         for(Photo ph : photoList){
-            list.add(cloudc.createUrl(ph.getImage(),420,420, "fit"));
-            System.out.printf("%s\n",cloudc.createUrl(ph.getImage(),420,420, "fit"));
+            list.add(cloudc.createUrl(ph.getImage(),150,150, "fit"));
+            //System.out.printf("%s\n",cloudc.createUrl(ph.getImage(),420,420, "fit"));
         }
         model.addAttribute("images", list);
         return "gallery";
@@ -136,4 +136,19 @@ public class HomeController {
 
         return "gallery";
     }
+
+    @GetMapping("/makememe")
+    public String getMeme(Model model){
+        model.addAttribute("photo",new Photo());
+        return "makememe";
+    }
+
+    @RequestMapping("/select/{id}")
+    public String selectSomthign(@PathVariable("id") String type, Model model){
+        List<Photo> list = photoRepo.findAllByType(type);
+        model.addAttribute("images", list);
+        return "makememe";
+    }
+
+
  }
