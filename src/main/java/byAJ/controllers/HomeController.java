@@ -104,7 +104,7 @@ public class HomeController {
             p.setImage(filename);
             p.setCreatedAt(new Date());
             photoRepo.save(p);
-            Iterable<Photo> photoList = photoRepo.findAll();
+            Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
             List<String> list = new ArrayList<String>();
             for(Photo ph : photoList){
                 list.add("http://res.cloudinary.com/dop68xspe/image/upload/w420h420afill/" + ph.getImage());
@@ -119,7 +119,7 @@ public class HomeController {
 
     @RequestMapping("/gallery")
     public String gallery(Model model){
-        Iterable<Photo> photoList = photoRepo.findAll();
+        Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
         List<String> list = new ArrayList<String>();
         for(Photo ph : photoList){
             list.add(cloudc.createUrl(ph.getImage(),420,420, "fit"));
@@ -128,4 +128,12 @@ public class HomeController {
         model.addAttribute("images", list);
         return "gallery";
     }
+
+    @PostMapping("/creatememe")
+    public String creatememe(@ModelAttribute Photo photo, Model model){
+        photoRepo.save(photo);
+
+        return "gallery";
+    }
+
 }

@@ -20,6 +20,12 @@ public class Photo {
     @Basic
     private Date createdAt = new Date();
 
+    private String topmessage;
+
+    private String botmessage;
+
+    private String type;
+
     public Long getId() {
         return id;
     }
@@ -60,5 +66,29 @@ public class Photo {
 
     public void setUpload(StoredFile file) {
         this.image = file.getPreloadedFile();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTopmessage() {
+        return topmessage;
+    }
+
+    public void setTopmessage(String topmessage) {
+        this.topmessage = topmessage;
+    }
+
+    public String getBotmessage() {
+        return botmessage;
+    }
+
+    public void setBotmessage(String botmessage) {
+        this.botmessage = botmessage;
     }
 }
