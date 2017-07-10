@@ -101,15 +101,11 @@ public class HomeController {
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
             Photo p = new Photo();
-            p.setImage(filename);
+            p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/" + filename + "'/>");
+            System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
             p.setCreatedAt(new Date());
             photoRepo.save(p);
-            Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
-            List<String> list = new ArrayList<String>();
-            for(Photo ph : photoList){
-                list.add("http://res.cloudinary.com/dop68xspe/image/upload/w420h420afill/" + ph.getImage());
-            }
-            model.addAttribute("images", list);
+            setupGallery(model);
         } catch (IOException e){
             e.printStackTrace();
             model.addAttribute("message", "Sorry I can't upload that!");
@@ -119,21 +115,28 @@ public class HomeController {
 
     @RequestMapping("/gallery")
     public String gallery(Model model){
-        Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
-        List<String> list = new ArrayList<String>();
-        for(Photo ph : photoList){
-            list.add(cloudc.createUrl(ph.getImage(),420,420, "fit"));
-            System.out.printf("%s\n",cloudc.createUrl(ph.getImage(),420,420, "fit"));
-        }
-        model.addAttribute("images", list);
+        setupGallery(model);
         return "gallery";
+    }
+
+    @RequestMapping("/textgen")
+    public String textgen(Model model){
+        model.addAttribute("photo", new Photo());
+        return "textgen";
     }
 
     @PostMapping("/creatememe")
     public String creatememe(@ModelAttribute Photo photo, Model model){
         photoRepo.save(photo);
-
+        setupGallery(model);
+        model.addAttribute("Meme created");
         return "gallery";
+    }
+
+    private void setupGallery(Model model){
+        Iterable<Photo> photoList = photoRepo.findAll();//ByBotmessageIsNotAndTopmessageIsNot("","");
+
+        model.addAttribute("images", photoList);
     }
 
 }
