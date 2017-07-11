@@ -31,6 +31,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -64,6 +65,15 @@ public class HomeController {
         return "registration";
     }
 
+    @RequestMapping("/memelink/{id}")
+    public String linktoMeme(@PathVariable("id") Long id, Model model){
+        Photo p = photoRepo.findById(id);
+        List<Photo> plist = new ArrayList<Photo>();
+        plist.add(p);
+        model.addAttribute("images",plist);
+        return "gallery";
+    }
+
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) throws UnsupportedEncodingException {
 
@@ -76,7 +86,7 @@ public class HomeController {
             userService.saveUser(user);
             model.addAttribute("message", "User Account Successfully Created");
         }
-        sendEmailWithoutTemplating();
+
         return "index";
     }
 
@@ -137,10 +147,12 @@ public class HomeController {
     }
 
     @PostMapping("/creatememe")
-    public String creatememe(@ModelAttribute Photo photo, Model model){
+    public String creatememe(@ModelAttribute Photo photo, Model model, Principal principal) throws UnsupportedEncodingException {
+        User u = userService.findByUsername(principal.getName());
         photoRepo.save(photo);
         setupGallery(model);
         model.addAttribute("Meme created");
+        sendEmailWithoutTemplating(u.getUsername(), u.getEmail(), photo.getId());
         return "gallery";
     }
 
@@ -192,12 +204,12 @@ public class HomeController {
     }
     @Autowired
     public EmailService emailService;
-    public void sendEmailWithoutTemplating() throws UnsupportedEncodingException {
+    public void sendEmailWithoutTemplating(String username, String email2, Long id) throws UnsupportedEncodingException {
         final Email email = DefaultEmail.builder()
-                .from(new InternetAddress("daylinzack@gmail.com", "Marco Tullio Cicerone "))
-                .to(Lists.newArrayList(new InternetAddress("daylinzack@gmail.com", "Pomponius Attĭcus")))
-                .subject("Laelius de amicitia")
-                .body("Firmamentum autem stabilitatis constantiaeque eius, quam in amicitia quaerimus, fides est.")
+                .from(new InternetAddress("daylinzack@gmail.com", "Admin Darth Vader"))
+                .to(Lists.newArrayList(new InternetAddress(email2, username)))
+                .subject("Your meme is here and ready for consumption")
+                .body("Hi youre meme is: localhost:3000/memelink/" + String.valueOf(id) )
                 .encoding("UTF-8").build();
         emailService.send(email);
     }
