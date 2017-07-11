@@ -146,18 +146,18 @@ public class HomeController {
 
     @GetMapping("/makememe")
     public String getMeme(Model model){
-        Iterable<Photo> list = photoRepo.findAll();
+        Iterable<Photo> list = photoRepo.findAllByBotmessageEqualsAndTopmessageEquals(null, null);
         List<Photo> list2 = new ArrayList<Photo>();
         for(Photo p : list){
             boolean check = true;
             for(Photo p2 : list2){
                 if(p2.getType().equals(p.getType())){
-                    //System.out.printf("%s %s\n", p2.getType(), p.getType());
+                    System.out.printf("1 %s %s\n", p2.getType(), p.getType());
                     check = false;
                     break;
                 }
                 else{
-                    //System.out.printf("%s %s\n", p2.getType(), p.getType());
+                    System.out.printf("2 %s %s\n", p2.getType(), p.getType());
                     check = true;
                 }
             }
@@ -165,11 +165,11 @@ public class HomeController {
                 list2.add(p);
 
             }
-           // System.out.printf("%s\n", p.getType());
+            System.out.printf("3 %s\n", p.getType());
         }
         Set<Photo> myList = new HashSet<Photo>();
         for(Photo p2 : list2){
-           // System.out.printf("%s\n", p2.getType());
+            //System.out.printf("%s\n", p2.getType());
             myList.add(p2);
         }
 

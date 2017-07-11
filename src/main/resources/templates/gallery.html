@@ -51,21 +51,22 @@
         <h2 th:text="${message}"/><br/><br/>
     </div>
     <div class="row">
-    <div class="col-md-3" th:each="photo : ${images}">
-            <img th:utext="${photo.image}" style="position:relative
-                width: 500px;" />
+    <div class="col-xs-6 col-md-6" th:each="photo : ${images}">
+            <img th:utext="${photo.image}" style="position:absolute; width: 500px;" />
             <h2 class="top" th:text="${photo.topmessage}" style="position: absolute;
                 top: 50px;
                 left: 150px;
                 width: 100px;
-                color: black;";/>
+                color: white;";/>
             <h2 class="bottom" th:text="${photo.botmessage}" style=" position: absolute;
-                top: 250px;
+                 top:200px;
                 left: 150px;
                 width: 100px;
-                color: black;"/>
+                color: white;"/>
 
-        </div>
+    </div>
+        <br/><br/> <br/><br/>
+
     </div>
 </div><!-- /.container -->
 
