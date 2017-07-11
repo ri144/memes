@@ -9,6 +9,10 @@ import byAJ.validators.UserValidator;
 import com.cloudinary.Singleton;
 import com.cloudinary.StoredFile;
 import com.cloudinary.utils.ObjectUtils;
+import com.google.common.collect.Lists;
+import it.ozimov.springboot.mail.model.Email;
+import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
+import it.ozimov.springboot.mail.service.EmailService;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +24,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cloudinary.Cloudinary;
 
+import javax.mail.internet.InternetAddress;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -59,7 +65,7 @@ public class HomeController {
     }
 
     @RequestMapping(value="/register", method = RequestMethod.POST)
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model){
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) throws UnsupportedEncodingException {
 
         model.addAttribute("user", user);
         userValidator.validate(user, result);
@@ -70,6 +76,7 @@ public class HomeController {
             userService.saveUser(user);
             model.addAttribute("message", "User Account Successfully Created");
         }
+        sendEmailWithoutTemplating();
         return "index";
     }
 
@@ -182,6 +189,17 @@ public class HomeController {
         Iterable<Photo> photoList = photoRepo.findAllByBotmessageIsNotAndTopmessageIsNot("","");
 
         model.addAttribute("images", photoList);
+    }
+    @Autowired
+    public EmailService emailService;
+    public void sendEmailWithoutTemplating() throws UnsupportedEncodingException {
+        final Email email = DefaultEmail.builder()
+                .from(new InternetAddress("daylinzack@gmail.com", "Marco Tullio Cicerone "))
+                .to(Lists.newArrayList(new InternetAddress("daylinzack@gmail.com", "Pomponius Attĭcus")))
+                .subject("Laelius de amicitia")
+                .body("Firmamentum autem stabilitatis constantiaeque eius, quam in amicitia quaerimus, fides est.")
+                .encoding("UTF-8").build();
+        emailService.send(email);
     }
 
 }
