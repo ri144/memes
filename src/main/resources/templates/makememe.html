@@ -26,8 +26,16 @@
     <div class="col-md-3" th:each="photo : ${images}">
         <a th:href="'/img/' + ${photo.id}" >
         <img th:utext="${photo.image}" />
-        <h2 class="top" th:text="${photo.topmessage}"/>
-        <h2 class="bottom" th:text="${photo.botmessage}"/>
+        <h2 class="top" th:text="${photo.topmessage}" style="  position: absolute;
+            top: 250px;
+            left: 150px;
+            width: 100px;
+            color: black;"/>
+        <h2 class="bottom" th:text="${photo.botmessage}" style=" position: absolute;
+                top: 250px;
+                left: 150px;
+                width: 100px;
+                color: black;"/>
         </a>
     </div>
 

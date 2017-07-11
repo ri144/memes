@@ -101,8 +101,8 @@ public class HomeController {
             model.addAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
-            p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/"+filename+"'/>");
-            System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
+            p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/"+filename+"' width='500px'/>");
+            //System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
             p.setCreatedAt(new Date());
             photoRepo.save(p);
             setupGallery(model);
@@ -169,7 +169,7 @@ public class HomeController {
         }
         Set<Photo> myList = new HashSet<Photo>();
         for(Photo p2 : list2){
-            System.out.printf("%s\n", p2.getType());
+           // System.out.printf("%s\n", p2.getType());
             myList.add(p2);
         }
 
