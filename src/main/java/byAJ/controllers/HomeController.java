@@ -101,8 +101,8 @@ public class HomeController {
             model.addAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
-            p.setImage(cloudc.createUrl(filename,200,200, "fit"));
-            //System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
+            p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/"+filename+"'/>");
+            System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
             p.setCreatedAt(new Date());
             photoRepo.save(p);
             setupGallery(model);
@@ -112,7 +112,11 @@ public class HomeController {
         }
         return "gallery";
     }
-
+    @RequestMapping("/img/{id}")
+    public String something(@PathVariable("id") long id, Model model){
+        model.addAttribute("photo", photoRepo.findById(id));
+        return "textgen";
+    }
     @RequestMapping("/gallery")
     public String gallery(Model model){
         setupGallery(model);

@@ -16,10 +16,9 @@
         <br /><br />
         <h1>Spring Boot file upload example</h1>
 
-    <div >
-                <tr th:each="phot : ${photoList}">
-                    <td><p th:text = "${phot.id}" th:href="@{'/' + select + '/' + ${phot.id}}"></p></td>
-                </tr>
+    <div th:each = "phot : ${photoList}" >
+
+                    <a th:text = "${phot.type}" th:href="@{'/' + select + '/' + ${phot.type}}"></a>
     </div><!-- /.container -->
 
 <div class="row">
