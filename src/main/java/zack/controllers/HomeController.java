@@ -145,6 +145,16 @@ public class HomeController {
         model.addAttribute("photoList", photoList);
         return "preview";
     }
+    @PostMapping("/preview")
+    public String postPreview(Model model,Photo photo, Principal principal)
+    {
+        model.addAttribute("photo",new Photo());
+        List<Photo> photoList = photoRepo.findAllByUsernameByOrderByDateAsc(principal.getName());
+        System.out.printf("%s\n", "photoList" + photoList);
+        //photoRepo.findFirstByPhotoList(photoList);
+        System.out.printf("%s\n", photoList.get(0).getFilter());
+        model.addAttribute("photoList", photoList);
+        return "preview";
     /*
     @PostMapping("/preview")
     public String postPreview(Model model, Photo photo, Principal principal) {
