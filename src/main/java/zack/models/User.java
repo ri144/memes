@@ -1,8 +1,4 @@
-package byAJ.models;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.data.annotation.*;
+package zack.models;
 
 import javax.persistence.*;
 import javax.persistence.Id;

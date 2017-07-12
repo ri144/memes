@@ -1,16 +1,13 @@
-package byAJ.services;
+package zack.services;
 
-import byAJ.models.Role;
-import byAJ.models.User;
-import byAJ.repositories.RoleRepository;
-import byAJ.repositories.UserRepository;
+import zack.models.User;
+import zack.repositories.RoleRepository;
+import zack.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class UserService {

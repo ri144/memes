@@ -1,4 +1,4 @@
-package byAJ.models;
+package zack.models;
 
 import com.cloudinary.StoredFile;
 
@@ -17,6 +17,9 @@ public class Photo {
     @Basic
     private String image;
 
+    private long likes;
+
+    private String filter;
     @Basic
     private Date createdAt = new Date();
 
@@ -25,6 +28,8 @@ public class Photo {
     private String botmessage;
 
     private String type;
+
+    private String username;
 
     public Long getId() {
         return id;
@@ -90,5 +95,29 @@ public class Photo {
 
     public void setBotmessage(String botmessage) {
         this.botmessage = botmessage;
+    }
+
+    public long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(long likes) {
+        this.likes = likes;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

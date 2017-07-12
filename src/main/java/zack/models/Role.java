@@ -1,8 +1,7 @@
-package byAJ.models;
+package zack.models;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
 public class Role {

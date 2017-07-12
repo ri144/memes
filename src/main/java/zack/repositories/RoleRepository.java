@@ -1,6 +1,6 @@
-package byAJ.repositories;
+package zack.repositories;
 
-import byAJ.models.Role;
+import zack.models.Role;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RoleRepository extends CrudRepository<Role, Long>{

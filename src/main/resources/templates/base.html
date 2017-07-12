@@ -59,6 +59,9 @@
                 <li><a href="/gallery" sec:authorize="isAuthenticated()">Gallery</a></li>
                 <li><a href="/makememe" sec:authorize="isAuthenticated()">Make a Meme</a></li>
                 <li><a href="/upload" sec:authorize ="isAuthenticated()"  access="hasRole('ADMIN')">Upload</a></li>
+                <li><a href="/searchusers" sec:authorize ="isAuthenticated()" ></a></li>
+                <li><a href="/mypics" sec:authorize ="isAuthenticated()" ></a>My Pictures</li>
+                <li><a href="/myfeed" sec:authorize ="isAuthenticated()" ></a>My Feed</li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

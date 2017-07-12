@@ -1,15 +1,11 @@
-package byAJ.configs;
+package zack.configs;
 
-import byAJ.models.Role;
-import byAJ.models.User;
-import byAJ.repositories.RoleRepository;
-import byAJ.repositories.UserRepository;
+import zack.repositories.RoleRepository;
+import zack.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 @Component
 public class DataLoader implements CommandLineRunner{

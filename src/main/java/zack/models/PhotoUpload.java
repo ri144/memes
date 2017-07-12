@@ -1,4 +1,4 @@
-package byAJ.models;
+package zack.models;
 
 import com.cloudinary.Singleton;
 import com.cloudinary.StoredFile;

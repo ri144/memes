@@ -1,7 +1,7 @@
-package byAJ.validators;
+package zack.validators;
 
-import byAJ.models.User;
-import byAJ.repositories.UserRepository;
+import zack.models.User;
+import zack.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

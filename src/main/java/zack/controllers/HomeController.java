@@ -1,36 +1,28 @@
-package byAJ.controllers;
+package zack.controllers;
 
-import byAJ.configs.CloudinaryConfig;
-import byAJ.models.Photo;
-import byAJ.models.User;
-import byAJ.repositories.PhotoRepository;
-import byAJ.services.UserService;
-import byAJ.validators.UserValidator;
-import com.cloudinary.Singleton;
-import com.cloudinary.StoredFile;
+import zack.configs.CloudinaryConfig;
+import zack.models.Photo;
+import zack.models.User;
+import zack.repositories.PhotoRepository;
+import zack.services.UserService;
+import zack.validators.UserValidator;
 import com.cloudinary.utils.ObjectUtils;
 import com.google.common.collect.Lists;
 import it.ozimov.springboot.mail.model.Email;
 import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
 import it.ozimov.springboot.mail.service.EmailService;
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import com.cloudinary.Cloudinary;
 
 import javax.mail.internet.InternetAddress;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.Principal;
 import java.util.*;
 
@@ -105,7 +97,8 @@ public class HomeController {
     }
 
     @PostMapping("/upload")
-    public String singleImageUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes, Model model, @ModelAttribute Photo p){
+    public String singleImageUpload(@RequestParam("file") MultipartFile file, @RequestParam("filter") String filter
+            , RedirectAttributes redirectAttributes, Model model, @ModelAttribute Photo p, Principal principal){
 
         if (file.isEmpty()){
             redirectAttributes.addFlashAttribute("message","Please select a file to upload");
@@ -118,17 +111,47 @@ public class HomeController {
             model.addAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
             String filename = uploadResult.get("public_id").toString() + "." + uploadResult.get("format").toString();
-            p.setImage("<img src='http://res.cloudinary.com/dop68xspe/image/upload/"+filename+"' width='500px'/>");
+            List<String> filterList = new ArrayList<String>();
+            filterList.add("e_grayscale/");
+            filterList.add("e_pixelate:5/");
+            if(filterList.contains(filter))
+            {
+                p.setImage("http://res.cloudinary.com/zbristor/image/upload/"+filter+filename);
+            } //<img src=
+            else
+            {
+                p.setImage("<img src='http://res.cloudinary.com/zbristor/image/upload/" + filename + "' width='500px'/>");
+            }
             //System.out.printf("%s\n", cloudc.createUrl(filename,900,900, "fit"));
             p.setCreatedAt(new Date());
+            p.setUsername(principal.getName());
             photoRepo.save(p);
+            System.out.println("image" + p.getImage());
             setupGallery(model);
         } catch (IOException e){
             e.printStackTrace();
             model.addAttribute("message", "Sorry I can't upload that!");
         }
-        return "gallery";
+        return "redirect:/preview";
     }
+    @GetMapping("/preview")
+    public String getPreview(Model model, Photo photo, Principal principal)
+    {
+        model.addAttribute("photo",new Photo());
+        List<Photo> photoList = photoRepo.findAllByUsernameByOrderByDateAsc(principal.getName());
+        System.out.printf("%s\n", "photoList" + photoList);
+        //photoRepo.findFirstByPhotoList(photoList);
+        System.out.printf("%s\n", photoList.get(0).getFilter());
+        model.addAttribute("photoList", photoList);
+        return "preview";
+    }
+    /*
+    @PostMapping("/preview")
+    public String postPreview(Model model, Photo photo, Principal principal) {
+
+        return "preview";
+    }
+    */
     @RequestMapping("/img/{id}")
     public String something(@PathVariable("id") long id, Model model){
         model.addAttribute("photo", photoRepo.findById(id));
@@ -212,6 +235,21 @@ public class HomeController {
                 .body("Hi youre meme is: localhost:3000/memelink/" + String.valueOf(id) )
                 .encoding("UTF-8").build();
         emailService.send(email);
+    }
+
+    @RequestMapping("/searchusers")
+    public String mapUser(Model model)
+    {
+        model.addAttribute("user", new User());
+        return "searchusers";
+    }
+
+    @PostMapping("/searchusers")
+    public String postUser(@ModelAttribute User user, Model model)
+    {
+        User us = userService.findByUsername(user.getUsername());
+        model.addAttribute("us",us);
+        return "searchusers";
     }
 
 }

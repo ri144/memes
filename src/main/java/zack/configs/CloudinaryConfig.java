@@ -1,4 +1,4 @@
-package byAJ.configs;
+package zack.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Singleton;

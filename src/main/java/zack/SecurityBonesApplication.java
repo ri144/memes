@@ -1,4 +1,4 @@
-package byAJ;
+package zack;
 
 import it.ozimov.springboot.mail.configuration.EnableEmailTools;
 import org.springframework.boot.SpringApplication;

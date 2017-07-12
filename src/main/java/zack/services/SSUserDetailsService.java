@@ -1,8 +1,8 @@
-package byAJ.services;
+package zack.services;
 
-import byAJ.models.Role;
-import byAJ.models.User;
-import byAJ.repositories.UserRepository;
+import zack.models.Role;
+import zack.models.User;
+import zack.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

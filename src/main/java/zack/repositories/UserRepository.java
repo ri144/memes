@@ -1,6 +1,6 @@
-package byAJ.repositories;
+package zack.repositories;
 
-import byAJ.models.User;
+import zack.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface UserRepository extends CrudRepository<User, Long>{
